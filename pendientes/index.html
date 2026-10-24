@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pendientes</title>
+  <meta name="description" content="Metas y tareas minimalistas, sin cuenta y sin conexión.">
+  <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121413" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pendientes">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Pendientes</h1>
+        <div class="date" id="today-label"></div>
+      </div>
+      <button class="icon" id="menu-btn" aria-label="Menú" type="button">⋯</button>
+    </header>
+
+    <div class="overall" id="overall" hidden>
+      <span id="overall-text"></span>
+      <span class="bar"><i id="overall-bar"></i></span>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" id="tab-todo" data-tab="todo" aria-selected="true" type="button">Todo</button>
+      <button role="tab" id="tab-today" data-tab="today" aria-selected="false" type="button">Hoy <span id="tab-today-count" class="count"></span></button>
+    </nav>
+
+    <main id="list"></main>
+  </div>
+
+  <form id="addbar" autocomplete="off">
+    <div class="inner">
+      <input id="addinput" type="text" maxlength="200" placeholder="Nueva meta o tarea…" aria-label="Nueva meta o tarea" enterkeyhint="done">
+      <button type="submit" class="primary" aria-label="Agregar">+</button>
+    </div>
+  </form>
+
+  <dialog id="sheet">
+    <form id="sheet-form" autocomplete="off">
+      <label class="field">
+        <span>Título</span>
+        <input name="title" type="text" maxlength="200" required>
+      </label>
+      <div class="field-row">
+        <label class="field">
+          <span>Fecha</span>
+          <input name="due" type="date">
+        </label>
+        <label class="field">
+          <span>Hora (recordatorio)</span>
+          <input name="time" type="time">
+        </label>
+      </div>
+      <label class="field">
+        <span>Repetir</span>
+        <select name="repeat">
+          <option value="">No se repite</option>
+          <option value="daily">Cada día</option>
+          <option value="weekly">Cada semana</option>
+          <option value="monthly">Cada mes</option>
+        </select>
+      </label>
+      <p class="hint" id="sheet-hint" hidden>Las metas con subtareas no se repiten; repite sus subtareas.</p>
+      <div class="actions">
+        <button type="button" class="danger" id="sheet-delete">Eliminar</button>
+        <button type="button" id="sheet-sub">+ Subtarea</button>
+        <span class="spacer"></span>
+        <button type="submit" class="primary wide">Listo</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="menu">
+    <div class="menu">
+      <div class="menu-row">
+        <div>
+          <strong>Recordatorios</strong>
+          <div class="hint" id="notif-status"></div>
+        </div>
+        <button type="button" id="notif-btn">Activar</button>
+      </div>
+      <label class="menu-row">
+        <span><strong>Ocultar completadas</strong></span>
+        <input type="checkbox" id="hide-done">
+      </label>
+      <button type="button" class="menu-item" id="export-btn">Exportar copia de seguridad</button>
+      <button type="button" class="menu-item" id="import-btn">Importar copia de seguridad</button>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
+      <p class="hint">Tus datos viven solo en este dispositivo. Exporta una copia de vez en cuando.</p>
+      <button type="button" class="menu-item close" id="menu-close">Cerrar</button>
+    </div>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
